@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}  # latest commit, not the one that triggered the run
 
       - uses: actions/setup-python@v5
         with:
@@ -36,5 +38,6 @@ jobs:
           git add seen_jobs.json
           if ! git diff --cached --quiet; then
             git commit -m "Update seen jobs"
+            git pull --rebase
             git push
           fi
